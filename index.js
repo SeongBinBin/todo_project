@@ -4,22 +4,25 @@ var cors = require('cors')
 var logger = require('morgan')
 var mongoose = require('mongoose')
 var axios = require('axios')
-// var todo = require('./src/models/Todo')
-var user = require('./src/models/User')
+var usersRouter = require('./src/routes/users')
+var todosRouter = require('./src/routes/todos')
+var config = require('./config')
 
 var corsOptions = { // CORS 옵션
     origin: 'http://127.0.0.1:5500',    // 해당 URL 주소만 요청을 허락함 (화이트리스트)
     credentials: true // 사용자 인증이 필요한 리소스를 요청할 수 있도록 허용함
 }
 
-var CONNECT_URL = 'mongodb://127.0.0.1:27017/SeongBinBin'
-mongoose.connect(CONNECT_URL)
+mongoose.connect(config.MONGODB_URL)    // config.js와 연결
 .then(() => console.log('mongodb connected ... '))
 .catch(e => console.log(`failed to connect mongodb: ${e}`))
 
 app.use(cors(corsOptions))  // CORS 설정
 app.use(express.json()) // request body 파싱
 app.use(logger('tiny')) // Logger 설정
+
+app.use('/api/users', usersRouter)  // User 라우터  /api/users
+app.use('/api/todos', todosRouter)  // Todo 라우터  /api/todos
 
 app.get('/hello', (req, res) => {   // URL 응답 테스트
     res.json('hello world!')
