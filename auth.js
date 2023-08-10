@@ -28,9 +28,10 @@ const isAuth = (req, res, next) => {    // 권한을 확인하는 라우트핸�
                 res.status(419).json({code: 419, message: 'token expired !'})    // 419: unknown
             }else if(err){  // 토큰 복호화하는 중에 에러발생
                 res.status(401).json({code: 401, message: 'Invalid Token !'})     // 401: 권한 에러
+            }else{
+                req.user = userInfo     // 브라우저에서 전송한 사용자 정보(jwt 토큰을 복호화한것)를 req 객체에 저장
+                next()
             }
-            req.user = userInfo     // 브라우저에서 전송한 사용자 정보(jwt 토큰을 복호화한것)를 req 객체에 저장
-            next()
         })
     }
 }

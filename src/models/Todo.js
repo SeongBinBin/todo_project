@@ -9,6 +9,16 @@ const todoSchema = new Schema({ // 스키마 정의
         required: true,
         ref: 'User' // 사용자 모델을 참조
     },
+    category: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    imgUrl: {
+        type: String,
+        required: true,
+        trim: true,
+    },
     title: {
         type: String,
         required: true,
@@ -22,7 +32,7 @@ const todoSchema = new Schema({ // 스키마 정의
         type: Boolean,
         default: false
     },
-    createAt: {
+    createdAt: {
         type: Date,
         default: Date.now
     },
